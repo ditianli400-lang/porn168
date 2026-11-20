@@ -292,7 +292,7 @@
     }
   </style>
 
-  <!-- Meta Pixel Code -->
+  <!-- Meta Pixel Code (两个像素合并) -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -302,12 +302,25 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2682182328863633');
-  fbq('track', 'PageView');
+
+  const META_PIXEL_IDS = [
+    "2682182328863633",
+    "1674684187439438"
+  ];
+
+  META_PIXEL_IDS.forEach(function(pixelId) {
+    fbq("init", pixelId);
+  });
+
+  // 只发送一次 PageView（会同时发给两个像素）
+  fbq("track", "PageView");
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=2682182328863633&ev=PageView&noscript=1"
-  /></noscript>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2682182328863633&ev=PageView&noscript=1">
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1674684187439438&ev=PageView&noscript=1">
+  </noscript>
   <!-- End Meta Pixel Code -->
 </head>
 
@@ -397,8 +410,6 @@
       })[c]);
     }
 
-    // First-party click statistics.
-    // Stored locally in the visitor's browser.
     function recordDownloadClick(source) {
       const record = {
         event: "download_click",
@@ -410,9 +421,7 @@
         const records = JSON.parse(
           localStorage.getItem("download_clicks") || "[]"
         );
-
         records.push(record);
-
         localStorage.setItem(
           "download_clicks",
           JSON.stringify(records.slice(-500))
@@ -423,6 +432,11 @@
     }
 
     function triggerDownload(source) {
+      // 只发送一次自定义事件「开始使用」（会同时发给两个像素）
+      if (typeof fbq === "function") {
+        fbq("track", "开始使用");
+      }
+
       recordDownloadClick(source);
 
       const a = document.createElement("a");
@@ -568,7 +582,6 @@
         triggerDownload("floating_download");
       });
 
-    // One delegated handler prevents double downloads.
     document.getElementById("content")
       .addEventListener("click", (e) => {
         const card = e.target.closest(".card");
