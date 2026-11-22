@@ -292,7 +292,7 @@
     }
   </style>
 
-  <!-- Meta Pixel Code (两个像素合并) -->
+  <!-- Meta Pixel Code -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -302,25 +302,12 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-
-  const META_PIXEL_IDS = [
-    "2682182328863633",
-    "1674684187439438"
-  ];
-
-  META_PIXEL_IDS.forEach(function(pixelId) {
-    fbq("init", pixelId);
-  });
-
-  // 只发送一次 PageView（会同时发给两个像素）
-  fbq("track", "PageView");
+  fbq('init', '1129232490025604');
+  fbq('track', 'PageView');
   </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=2682182328863633&ev=PageView&noscript=1">
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1674684187439438&ev=PageView&noscript=1">
-  </noscript>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1129232490025604&ev=PageView&noscript=1"
+  /></noscript>
   <!-- End Meta Pixel Code -->
 </head>
 
@@ -432,7 +419,7 @@
     }
 
     function triggerDownload(source) {
-      // 只发送一次自定义事件「开始使用」（会同时发给两个像素）
+      // 只发送一次自定义事件「开始使用」
       if (typeof fbq === "function") {
         fbq("track", "开始使用");
       }
